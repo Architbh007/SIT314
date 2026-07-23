@@ -1,0 +1,15 @@
+{
+  "name": "forest-fire-monitoring",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "normal": "node sensor_simulator.js normal",
+    "warning": "node sensor_simulator.js warning",
+    "emergency": "node sensor_simulator.js emergency",
+    "confirmed": "node sensor_simulator.js confirmed",
+    "alerts": "node alert_receiver.js"
+  },
+  "dependencies": {
+    "mqtt": "^5.10.4"
+  }
+}
