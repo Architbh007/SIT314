@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb+srv://bhullararchit07_db_user:IJqUTosQfk8tQkMf@sit314-cluster.rkjq2va.mongodb.net');
+mongoose.connect('hihi');
 
 const Sensor = require('./models/sensor');
 
