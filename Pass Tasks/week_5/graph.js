@@ -1,12 +1,11 @@
 const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
 const fs = require('fs');
 
-const width = 900;
-const height = 500;
+const width = 600;
+const height = 400;
 const chartJSNodeCanvas = new ChartJSNodeCanvas({ width, height, backgroundColour: 'white' });
-
-// Replace this array with your own timing values from running iotsensor.js
-const writeTimes = [42, 28, 28, 24, 30, 30, 29, 29, 32, 29, 27, 92, 33, 36, 120, 25, 25];
+s
+const writeTimes = [42, 21,];
 const labels = writeTimes.map((_, i) => (i + 1).toString());
 
 const configuration = {
