@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('hihi');
+mongoose.connect('hihi001');
 
 const Sensor = require('./models/sensor');
 
