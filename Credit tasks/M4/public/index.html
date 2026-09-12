@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>
+    Local Weather Web Service
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  />
+
+</head>
+
+
+<body>
+
+  <header>
+
+    <div class="header-content">
+
+      <p class="eyebrow">
+        SIT314 Module 4
+      </p>
+
+      <h1>
+        Local Weather Web Service
+      </h1>
+
+      <p class="subtitle">
+        Sensor CRUD, persistent latest-temperature
+        tracking and external location weather data.
+      </p>
+
+    </div>
+
+  </header>
+
+
+  <main>
+
+
+    <!-- ======================================== -->
+    <!-- SERVER STATUS -->
+    <!-- ======================================== -->
+
+    <section class="card">
+
+      <div class="section-heading">
+
+        <div>
+
+          <p class="section-number">
+            API
+          </p>
+
+          <h2>
+            Service Status
+          </h2>
+
+        </div>
+
+
+        <button
+          class="secondary-button"
+          onclick="checkServer()"
+        >
+          Check API
+        </button>
+
+      </div>
+
+
+      <pre id="serverOutput">
+Press "Check API" to verify the service.
+      </pre>
+
+    </section>
+
+
+
+    <!-- ======================================== -->
+    <!-- CREATE -->
+    <!-- ======================================== -->
+
+    <section class="card">
+
+      <div class="section-heading">
+
+        <div>
+
+          <p class="section-number">
+            CREATE
+          </p>
+
+          <h2>
+            Submit Sensor Reading
+          </h2>
+
+        </div>
+
+        <span class="method post">
+          POST
+        </span>
+
+      </div>
+
+
+      <div class="form-grid">
+
+        <div class="form-field">
+
+          <label for="sensorId">
+            Sensor ID
+          </label>
+
+          <input
+            id="sensorId"
+            type="text"
+            value="SENSOR_001"
+          />
+
+        </div>
+
+
+        <div class="form-field">
+
+          <label for="temperature">
+            Temperature (°C)
+          </label>
+
+          <input
+            id="temperature"
+            type="number"
+            step="0.1"
+            value="24.5"
+          />
+
+        </div>
+
+
+        <div class="form-field">
+
+          <label for="humidity">
+            Humidity (%)
+          </label>
+
+          <input
+            id="humidity"
+            type="number"
+            min="0"
+            max="100"
+            value="55"
+          />
+
+        </div>
+
+
+        <div class="form-field">
+
+          <label for="location">
+            Sensor Location
+          </label>
+
+          <input
+            id="location"
+            type="text"
+            value="Deakin Burwood"
+          />
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="primary-button"
+        onclick="createReading()"
+      >
+        Create Reading
+      </button>
+
+
+      <pre id="createOutput">
+Create a sensor reading to see the response.
+      </pre>
+
+    </section>
+
+
+
+    <!-- ======================================== -->
+    <!-- READ ALL -->
+    <!-- ======================================== -->
+
+    <section class="card">
+
+      <div class="section-heading">
+
+        <div>
+
+          <p class="section-number">
+            READ
+          </p>
+
+          <h2>
+            Stored Sensor Readings
+          </h2>
+
+        </div>
+
+
+        <span class="method get">
+          GET
+        </span>
+
+      </div>
+
+
+      <button
+        class="secondary-button"
+        onclick="loadReadings()"
+      >
+        Refresh Readings
+      </button>
+
+
+      <div
+        id="readingsTable"
+        class="table-container"
+      >
+      </div>
+
+    </section>
+
+
+
+    <!-- ======================================== -->
+    <!-- READ ONE -->
+    <!-- ======================================== -->
+
+    <section class="card">
+
+      <div class="section-heading">
+
+        <div>
+
+          <p class="section-number">
+            READ ONE
+          </p>
+
+          <h2>
+            Retrieve Reading by ID
+          </h2>
+
+        </div>
+
+
+        <span class="method get">
+          GET
+        </span>
+
+      </div>
+
+
+      <div class="inline-form">
+
+        <input
+          id="readId"
+          type="text"
+          placeholder="MongoDB reading ID"
+        />
+
+
+        <button
+          class="secondary-button"
+          onclick="getReadingById()"
+        >
+          Retrieve
+        </button>
+
+      </div>
+
+
+      <pre id="readOneOutput">
+Enter a MongoDB reading ID.
+      </pre>
+
+    </section>
+
+
+
+    <!-- ======================================== -->
+    <!-- LATEST -->
+    <!-- ======================================== -->
+
+    <section class="card highlighted">
+
+      <div class="section-heading">
+
+        <div>
+
+          <p class="section-number">
+            LATEST
+          </p>
+
+          <h2>
+            Latest Temperature Reading
+          </h2>
+
+        </div>
+
+
+        <span class="method get">
+          GET
+        </span>
+
+      </div>
+
+
+      <button
+        class="primary-button"
+        onclick="loadLatest()"
+      >
+        Get Latest Temperature
+      </button>
+
+
+      <div
+        id="latestDisplay"
+        class="latest-display"
+      >
+
+        <p>
+          No reading loaded yet.
+        </p>
+
+      </div>
+
+
+      <pre id="latestOutput">
+Press the button to retrieve the latest reading.
+      </pre>
+
+    </section>
+
+
+
+    <!-- ======================================== -->
+    <!-- UPDATE -->
+    <!-- ======================================== -->
+
+    <section class="card">
+
+      <div class="section-heading">
+
+        <div>
+
+          <p class="section-number">
+            UPDATE
+          </p>
+
+          <h2>
+            Update Sensor Reading
+          </h2>
+
+        </div>
+
+
+        <span class="method put">
+          PUT
+        </span>
+
+      </div>
+
+
+      <div class="form-grid">
+
+        <div class="form-field wide">
+
+          <label for="updateId">
+            Reading ID
+          </label>
+
+          <input
+            id="updateId"
+            type="text"
+            placeholder="MongoDB reading ID"
+          />
+
+        </div>
+
+
+        <div class="form-field">
+
+          <label for="updateTemp">
+            New Temperature
+          </label>
+
+          <input
+            id="updateTemp"
+            type="number"
+            step="0.1"
+            placeholder="e.g. 28.4"
+          />
+
+        </div>
+
+
+        <div class="form-field">
+
+          <label for="updateHumidity">
+            New Humidity
+          </label>
+
+          <input
+            id="updateHumidity"
+            type="number"
+            min="0"
+            max="100"
+            placeholder="Optional"
+          />
+
+        </div>
+
+
+        <div class="form-field wide">
+
+          <label for="updateLocation">
+            New Location
+          </label>
+
+          <input
+            id="updateLocation"
+            type="text"
+            placeholder="Optional"
+          />
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="primary-button"
+        onclick="updateReading()"
+      >
+        Update Reading
+      </button>
+
+
+      <pre id="updateOutput">
+Enter a reading ID and one or more values to update.
+      </pre>
+
+    </section>
+
+
+
+    <!-- ======================================== -->
+    <!-- DELETE -->
+    <!-- ======================================== -->
+
+    <section class="card">
+
+      <div class="section-heading">
+
+        <div>
+
+          <p class="section-number">
+            DELETE
+          </p>
+
+          <h2>
+            Delete Sensor Reading
+          </h2>
+
+        </div>
+
+
+        <span class="method delete">
+          DELETE
+        </span>
+
+      </div>
+
+
+      <div class="inline-form">
+
+        <input
+          id="deleteId"
+          type="text"
+          placeholder="MongoDB reading ID"
+        />
+
+
+        <button
+          class="danger-button"
+          onclick="deleteReading()"
+        >
+          Delete Reading
+        </button>
+
+      </div>
+
+
+      <pre id="deleteOutput">
+Enter a reading ID to delete it.
+      </pre>
+
+    </section>
+
+
+
+    <!-- ======================================== -->
+    <!-- WEATHER-JS -->
+    <!-- ======================================== -->
+
+    <section class="card weather-card">
+
+      <div class="section-heading">
+
+        <div>
+
+          <p class="section-number">
+            EXTERNAL API
+          </p>
+
+          <h2>
+            Location Weather
+          </h2>
+
+        </div>
+
+
+        <span class="method get">
+          GET
+        </span>
+
+      </div>
+
+
+      <p class="description">
+
+        Search for weather information for a specific
+        map location using the weather-js module.
+
+      </p>
+
+
+      <div class="inline-form">
+
+        <input
+          id="weatherLocation"
+          type="text"
+          value="Melbourne"
+          placeholder="Enter location"
+        />
+
+
+        <button
+          class="primary-button"
+          onclick="getWeather()"
+        >
+          Get Weather
+        </button>
+
+      </div>
+
+
+      <div
+        id="weatherSummary"
+        class="weather-summary"
+      >
+
+        <p>
+          Search for a location to display external
+          weather information.
+        </p>
+
+      </div>
+
+
+      <pre id="weatherOutput">
+Weather data will appear here.
+      </pre>
+
+    </section>
+
+
+  </main>
+
+
+  <footer>
+
+    <p>
+      SIT314 Module 4 Above and Beyond Task
+    </p>
+
+  </footer>
+
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>
